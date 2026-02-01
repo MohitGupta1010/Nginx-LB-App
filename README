@@ -37,4 +37,6 @@ server {
 
 # Comment out the duplicate lines of location present at line number 60-65
 
-9. serviec nginx restart
+9. service nginx restart
+
+10. Allow respected traffic incoming and outgoing in all instances.
