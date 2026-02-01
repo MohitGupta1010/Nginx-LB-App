@@ -1,0 +1,40 @@
+1. Launch 2 server and execute below command
+	yum update -y; yum install nodejs npm git -y;
+
+2. Clone the repo on both server
+
+3. cd Node-LB-App
+
+4. npm i package.json
+
+5. npm i -g pm2  # pm2 will help in make our server run in background
+
+6. pm2 start server.js 
+
+7. Launch one more ubuntu server and execute below command
+	apt update -y; apt install nginx -y; service nginx start
+
+8. Edit the file in location /etc/nginx/sites-available/default and add below content
+
+upstream backend {
+        server 13.233.40.217:3000;
+        server 13.233.227.109:3000;
+}
+
+server {
+        listen 80 default_server;
+        listen [::]:80 default_server;
+
+        location / {
+                proxy_pass http://backend;
+
+                proxy_set_header Host $host;
+                proxy_set_header X-Real-IP $remote_addr;
+                proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+                proxy_set_header X-Fowarded-Proto $scheme;
+
+                }
+
+# Comment out the duplicate lines of location present at line number 60-65
+
+9. serviec nginx restart
